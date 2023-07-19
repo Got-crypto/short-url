@@ -63,8 +63,6 @@ app.post('/api/shorturl', async (req, res) => {
 
   const savedUrls = await getAllUrls()
 
-  console.log('savedUrls', savedUrls)
-
   for(let url of savedUrls) {
     if (url.original_url === original_url) {
       return res.json({ original_url: url.original_url, short_url: url.short_url})
@@ -91,6 +89,20 @@ app.post('/api/shorturl', async (req, res) => {
 
     return res.json({original_url, short_url})
   })
+})
+
+app.get('/api/shorturl/:shortUrl', async (req, res) => {
+  const short_url = req.params.shortUrl
+
+  const savedUrls = await getAllUrls()
+
+  for(let url of savedUrls){
+    if(url.short_url === parseInt(short_url)) {
+      return res.redirect(url.original_url)
+    }
+  }
+
+  return res.json({error: 'short url not found'})
 })
 
 app.listen(port, function() {
