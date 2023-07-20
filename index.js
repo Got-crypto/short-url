@@ -37,8 +37,6 @@ app.get('/api/hello', function(req, res) {
 });
 
 const getAllUrls = () => {
-  URLs
-
   const savedUrls = URLs.find().select({original_url: 1, short_url: 1}).exec()
 
   return savedUrls.then((data) => (data))
